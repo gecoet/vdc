@@ -1,16 +1,25 @@
 # Design Principles
 
-These are the design principles that we follow for the toolkit.
+These design principles drive the decisions around the toolkit's features and architecture.
 Understanding the design principles is helpful for understanding the intended usage of the toolkit.
 
 Contributors should be familar with these principles before submiting a pull request or recommending a new feature.
 
-There are some instances where the toolkit is not consistent with the stated design principles. 
-However, our intent to always improve our consistency.
+There are some instances where the current implementation is not consistent with the stated design principles. 
+However, the intent to always improve consistency.
 
-## Automated, Declarative, Everything-as-Code
+## Everything-as-Code, Declarative, and Automated
 
-The toolkit is following the common [principles of DevOps](https://docs.microsoft.com/azure/architecture/checklist/dev-ops). More
+The toolkit is following the common [principles of DevOps](https://docs.microsoft.com/azure/architecture/checklist/dev-ops).
+
+We place an emphasis on [infrastructure-as-code (IaC)](https://en.wikipedia.org/wiki/Infrastructure_as_code) following a [declarative approach](https://en.wikipedia.org/wiki/Declarative_programming). This principle is extended to policy and process (i.e., gated release process).
+**Anything that can be managed through code, should be managed in code.** This is what is meant by _everything-as-code_.
+
+The declarative model means that the code describes a _desired state_ and that some run-time is responsbile for interpreting the code and establishing the desire state. A declarative approach is contrasted against an imperative or procedural approach. An imperative approach provides a set of steps to execute and a desired state can only be infer (at best) from the steps. Azure Resource Manager templates and Azure Policy are declarative.
+
+Automation is a third pillar along with everything-as-code and the declarative approach.
+Any change of state should be intiated as a change to source code. The change in source code triggers an automated process, that includes valdiation and safety checks. This allows for more predictable outcomes and reduces the risk of human error.
+**Anything that can be automated, should be automated.**
 
 ## Don't abstract the platform
 
