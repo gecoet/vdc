@@ -33,3 +33,9 @@ Any custom code included in the toolkit should be use to compose (or "glue toget
 A core purpose for the toolkit is to provide end-to-end reference implementations for core enterprise control plane scenarios. The reference implementations are concrete implementations and we have to choose specific technologies. While we have chosen native Azure technologies for our reference implementations, we recognize that customers may have other technology preferences. 
 
 The toolkit should avoid designs that introduce [tight coupling](https://en.wikipedia.org/wiki/Loose_coupling) between different functions. For example, the technology used to orchestrate a deployment (i.e., Azure DevOps, Jenkins) should not restrict the technology used to define the deployment (i.e., Azure Resource Manager templates, Terraform).
+
+## Common tools for automation and manual process
+
+Any automatation should follow the same steps and use the same tools that a developer would use manually.
+For example, a CI/CD pipeline in Azure DevOps should invoke the same commands that a human being would use when deploying manually.
+By having common tools and prodcedures, outcomes are more predictable.
