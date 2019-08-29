@@ -65,10 +65,42 @@ Class ConfigurationBuilder {
             $this.ReplaceTokens($this.configurationInstance);
 
         # Convert to hashtable and return Configuration Instance
-        return `
+        $configurationInstanceHtbl = `
             ConvertTo-HashTable `
                 -InputObject $this.configurationInstance;
 
+        $temp = `
+            $this.RetainScriptOrder(
+                $this.configurationInstance, 
+                $configurationInstanceHtbl
+            );
+
+        return $temp;
+    }
+
+    hidden [hashtable] RetainScriptOrder([object] $referenceData, [hashtable] $actualData) {
+
+        if($null -ne $actualData.Orchestration.ModuleConfigurations -and `
+        $actualData.Orchestration.ModuleConfigurations -is [array]) {
+            $actualData.Orchestration.ModuleConfigurations | Where-Object {
+                $null -ne $_.Script
+            } | ForEach-Object {
+
+                $actualModule = $_;
+
+                # Get the Module Name
+                $moduleName = $actualModule.Name;
+
+                $referenceModule = $referenceData.Orchestration.ModuleConfigurations | ? { $_.Name -eq $moduleName };
+                
+                if($null -ne $actualModule.Script.Arguments -and `
+                    $null -ne $referenceModule.Script.Arguments) {
+                    $actualModule.Script.Arguments = $referenceModule.Script.Arguments;
+                }
+            }
+        }
+
+        return $actualData;
     }
     
     hidden [string] ProcessFile([string] $filePath, [int] $depthLimit) {
