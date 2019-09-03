@@ -199,7 +199,6 @@ Class CustomScriptExecution {
             Write-Host "Debug value - $($arguments.$argumentName)";
             $orderedArguments += $arguments.$argumentName;
         }
-        Write-Host "[Post] Value of args of bash script is $(ConvertTo-Json $orderedArguments -Depth 50)";
         # Return the arguments list
         return $orderedArguments;
     }
