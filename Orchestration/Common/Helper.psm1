@@ -31,17 +31,25 @@ Function Get-PathFromFileFunction() {
     }
 }
 
+Function Test-IsLoggedIn() {
+    [CmdletBinding()]
+
+    $context = Get-AzContext
+    return ($null -ne $context)
+}
+
 Function Test-JsonContent() {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
         $Content
     )
 
     try {
-        return `
-            Test-Json $Content `
+        $result = `
+            ConvertFrom-Json $Content `
                 -ErrorAction SilentlyContinue;
+        return $null -ne $result
     }
     catch {
         return $false;
